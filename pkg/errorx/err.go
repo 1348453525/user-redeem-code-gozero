@@ -30,6 +30,7 @@ var (
 	ErrUserExisted      = errors.New("用户已存在")
 	ErrUserDisabled     = errors.New("账户已停用")
 	ErrPasswordError    = errors.New("密码错误")
+	ErrUserNotExisted   = errors.New("用户不存在")
 )
 
 // 兑换码错误

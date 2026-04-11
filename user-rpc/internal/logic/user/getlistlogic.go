@@ -3,8 +3,9 @@ package userlogic
 import (
 	"context"
 
+	"github.com/1348453525/user-redeem-code-gozero/model"
 	"github.com/1348453525/user-redeem-code-gozero/user-rpc/internal/svc"
-	"github.com/1348453525/user-redeem-code-gozero/user-rpc/proto/user"
+	proto "github.com/1348453525/user-redeem-code-gozero/user-rpc/proto/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,8 +25,16 @@ func NewGetListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetListLo
 }
 
 // 获取用户列表
-func (l *GetListLogic) GetList(in *user.GetUserListRequest) (*user.GetUserListResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &user.GetUserListResponse{}, nil
+func (l *GetListLogic) GetList(r *proto.GetUserListRequest) (*proto.GetUserListResponse, error) {
+	list, count := model.GetUserList(l.svcCtx.DB, r.Page, r.PageSize)
+	resp := &proto.GetUserListResponse{
+		Page:     r.Page,
+		PageSize: r.PageSize,
+		Total:    count,
+	}
+	for _, v := range list {
+		userInfoDvo := buildUserInfoDvo(v)
+		resp.Data = append(resp.Data, &userInfoDvo)
+	}
+	return resp, nil
 }
