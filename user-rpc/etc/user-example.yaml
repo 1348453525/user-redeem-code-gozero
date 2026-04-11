@@ -1,0 +1,31 @@
+Name: user.rpc
+Mode: dev
+ListenOn: 127.0.0.1:8070
+
+# Etcd:
+#   Hosts:
+#   - 127.0.0.1:2379
+#   Key: user.rpc
+
+Log:
+  ServiceName: "user.rpc"
+  Mode: console # console,file,volume
+  Encoding: json
+  Path: logs
+  Level: debug # debug,info,error,severe
+  Stat: true
+
+# 生成客户端 jwt
+Jwt:
+  AccessSecret: user-redeem-code-gozero
+  AccessExpire: 86400
+
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local
+
+CacheRedis:
+  - Host: 127.0.0.1:6379
+
+Consul:
+  Host: 127.0.0.1:8500
+  Key: user.rpc
