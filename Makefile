@@ -3,11 +3,11 @@ tidy:
 	go mod tidy
 
 .PHONY: run-user-rpc
-run:
+run-user-rpc:
 	cd user-rpc && go run user.go
 
 .PHONY: rpc-user
-rpc:
+rpc-user:
 	cd user-rpc && goctl rpc protoc user.proto --go_out=. --go-grpc_out=. --zrpc_out=. -m
 
 help:
