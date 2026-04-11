@@ -17,11 +17,11 @@ Log:
 
 # 生成客户端 jwt
 Jwt:
-  AccessSecret: user-redeem-code-gozero
+  AccessSecret: user_redeem_code
   AccessExpire: 86400
 
 Mysql:
-  DataSource: root:123456@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local
+  DataSource: root:123456@tcp(127.0.0.1:3306)/user_redeem_code?charset=utf8mb4&parseTime=True&loc=Local
 
 CacheRedis:
   - Host: 127.0.0.1:6379

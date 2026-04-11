@@ -3,6 +3,8 @@ module github.com/1348453525/user-redeem-code-gozero
 go 1.25.8
 
 require (
+	github.com/anaskhan96/go-password-encoder v0.0.0-20201010210601-c765b799fd72
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/zeromicro/go-zero v1.10.1
 	github.com/zeromicro/zero-contrib/zrpc/registry/consul v0.0.0-20251020121907-c2e4c4911576
 	google.golang.org/grpc v1.80.0
@@ -92,6 +94,7 @@ require (
 	go.uber.org/zap v1.24.0 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	golang.org/x/crypto v0.48.0 // indirect
 	golang.org/x/exp v0.0.0-20230321023759-10a507213a29 // indirect
 	golang.org/x/net v0.50.0 // indirect
 	golang.org/x/oauth2 v0.34.0 // indirect
