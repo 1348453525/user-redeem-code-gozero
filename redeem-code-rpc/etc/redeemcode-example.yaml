@@ -1,6 +1,26 @@
 Name: redeemcode.rpc
-ListenOn: 0.0.0.0:8080
-Etcd:
-  Hosts:
-  - 127.0.0.1:2379
+Mode: dev
+ListenOn: 127.0.0.1:8080
+
+# Etcd:
+#   Hosts:
+#   - 127.0.0.1:2379
+#   Key: redeemcode.rpc
+
+Log:
+  ServiceName: "redeemcode.rpc"
+  Mode: console # console,file,volume
+  Encoding: json
+  Path: logs
+  Level: debug # debug,info,error,severe
+  Stat: true
+
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3306)/user_redeem_code?charset=utf8mb4&parseTime=True&loc=Local
+
+CacheRedis:
+  - Host: 127.0.0.1:6379
+
+Consul:
+  Host: 127.0.0.1:8500
   Key: redeemcode.rpc
