@@ -38,18 +38,18 @@ func (l *CreateRedeemCodeBatchLogic) CreateRedeemCodeBatch(r *proto.CreateRedeem
 	// 解析日期
 	startedAt, err := helper.ParseDatetime(r.StartedAt)
 	if err != nil {
-		logx.Errorw("解析开始时间失败", logx.Field("err", err), logx.Field("startedAt", r.StartedAt))
+		l.Logger.Errorw("解析开始时间失败", logx.Field("err", err), logx.Field("startedAt", r.StartedAt))
 		return nil, errorx.ToGrpcError(errorx.ErrParam)
 	}
 	endedAt, err := helper.ParseDatetime(r.EndedAt)
 	if err != nil {
-		logx.Errorw("解析结束时间失败", logx.Field("err", err), logx.Field("endedAt", r.EndedAt))
+		l.Logger.Errorw("解析结束时间失败", logx.Field("err", err), logx.Field("endedAt", r.EndedAt))
 		return nil, errorx.ToGrpcError(errorx.ErrParam)
 	}
 
 	// 验证时间范围
 	if endedAt.Before(*startedAt) {
-		logx.Errorw("结束时间早于开始时间", logx.Field("startedAt", r.StartedAt), logx.Field("endedAt", r.EndedAt))
+		l.Logger.Errorw("结束时间早于开始时间", logx.Field("startedAt", r.StartedAt), logx.Field("endedAt", r.EndedAt))
 		return nil, errorx.ToGrpcError(errorx.ErrParam)
 	}
 
@@ -58,7 +58,7 @@ func (l *CreateRedeemCodeBatchLogic) CreateRedeemCodeBatch(r *proto.CreateRedeem
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()
-			logx.Errorw("事务panic", logx.Field("panic", r))
+			l.Logger.Errorw("事务panic", logx.Field("panic", r))
 		}
 	}()
 
@@ -76,7 +76,7 @@ func (l *CreateRedeemCodeBatchLogic) CreateRedeemCodeBatch(r *proto.CreateRedeem
 	}
 	if result := tx.Create(&newRedeemCodeBatch); result.Error != nil {
 		tx.Rollback()
-		logx.Errorw("创建兑换码批次失败", logx.Field("err", result.Error))
+		l.Logger.Errorw("创建兑换码批次失败", logx.Field("err", result.Error))
 		return nil, errorx.ToGrpcError(errorx.ErrOperationFailed)
 	}
 
@@ -104,14 +104,14 @@ func (l *CreateRedeemCodeBatchLogic) CreateRedeemCodeBatch(r *proto.CreateRedeem
 
 		if result := tx.Create(&newRedeemCodes); result.Error != nil {
 			tx.Rollback()
-			logx.Errorw("批量创建兑换码失败", logx.Field("err", result.Error))
+			l.Logger.Errorw("批量创建兑换码失败", logx.Field("err", result.Error))
 			return nil, errorx.ToGrpcError(errorx.ErrOperationFailed)
 		}
 	}
 
 	// 提交事务
 	if err := tx.Commit().Error; err != nil {
-		logx.Errorw("提交事务失败", logx.Field("err", err))
+		l.Logger.Errorw("提交事务失败", logx.Field("err", err))
 		return nil, errorx.ToGrpcError(errorx.ErrOperationFailed)
 	}
 
