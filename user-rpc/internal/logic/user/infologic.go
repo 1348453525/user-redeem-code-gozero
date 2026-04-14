@@ -35,7 +35,7 @@ func (l *InfoLogic) Info(r *proto.IDRequest) (*proto.UserInfoResponse, error) {
 		return nil, errorx.ToGrpcError(errorx.ErrUserNotExisted)
 	}
 	if err != nil {
-		return nil, err
+		return nil, errorx.ToGrpcError(err)
 	}
 
 	// 返回数据

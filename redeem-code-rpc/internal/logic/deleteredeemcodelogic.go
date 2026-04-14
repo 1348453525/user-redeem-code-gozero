@@ -3,8 +3,10 @@ package logic
 import (
 	"context"
 
+	"github.com/1348453525/user-redeem-code-gozero/model"
+	"github.com/1348453525/user-redeem-code-gozero/pkg/errorx"
 	"github.com/1348453525/user-redeem-code-gozero/redeem-code-rpc/internal/svc"
-	"github.com/1348453525/user-redeem-code-gozero/redeem-code-rpc/redeemcode"
+	proto "github.com/1348453525/user-redeem-code-gozero/redeem-code-rpc/redeemcode"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/zeromicro/go-zero/core/logx"
@@ -25,8 +27,10 @@ func NewDeleteRedeemCodeLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 // 删除兑换码
-func (l *DeleteRedeemCodeLogic) DeleteRedeemCode(in *redeemcode.IDRequest) (*emptypb.Empty, error) {
-	// todo: add your logic here and delete this line
-
+func (l *DeleteRedeemCodeLogic) DeleteRedeemCode(r *proto.IDRequest) (*emptypb.Empty, error) {
+	if err := l.svcCtx.DB.Model(&model.RedeemCode{}).Where("id=?", r.Id).Update("is_del", 1).Error; err != nil {
+		l.Logger.Errorw("删除兑换码失败", logx.Field("err", err), logx.Field("id", r.Id))
+		return &emptypb.Empty{}, errorx.ToGrpcError(errorx.ErrInternal)
+	}
 	return &emptypb.Empty{}, nil
 }
