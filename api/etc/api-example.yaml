@@ -1,0 +1,7 @@
+Name: api
+Host: 0.0.0.0
+Port: 8888
+
+Auth:
+  AccessSecret: user_redeem_code
+  AccessExpire: 86400

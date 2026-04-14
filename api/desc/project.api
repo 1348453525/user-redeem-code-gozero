@@ -1,0 +1,14 @@
+syntax = "v1"
+
+import (
+	"./user.api"
+	"./redeem_code.api"
+	"./redeem_code_batch.api"
+)
+
+info (
+	title:   "user-redeem-code-api"
+	desc:    "用户兑换码接口"
+	version: "0.0.1"
+)
+

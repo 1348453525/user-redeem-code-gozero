@@ -1,0 +1,102 @@
+syntax = "v1"
+
+@server(
+	prefix: /v1/User
+	group: user
+)
+service api {
+	// 注册
+	@handler Register
+	post /Register(RegisterRequest) returns (UserInfoResponse)
+
+	// 登录
+	@handler Login
+	post /Login(LoginRequest) returns (LoginResponse)
+}
+
+@server(
+	prefix: /v1/User
+	group: user
+	jwt: Auth
+)
+service api {
+	// 获取用户信息
+	@handler Info
+	get /Info/:id(IDRequest) returns (UserInfoResponse)
+
+	// 获取用户列表
+	@handler GetList
+	get /GetList(GetUserListRequest) returns (GetUserListResponse)
+
+	// 更新用户信息
+	@handler Update
+	put /Update(UpdateUserRequest)
+
+	// 删除用户
+	@handler Delete
+	delete /Delete/:id(IDRequest)
+}
+
+type (
+	// 注册请求
+	RegisterRequest {
+		Username string `json:"username"`           // 用户名
+		Password string `json:"password"`           // 密码
+		ConfirmPassword string `json:"confirm_password"` // 确认密码
+		Nickname string `json:"nickname"`           // 昵称
+		Mobile string `json:"mobile"`               // 手机号
+		Gender int32 `json:"gender"`                // 性别
+		Birthday string `json:"birthday"`           // 生日
+	}
+
+	// 用户信息响应
+	UserInfoResponse {
+		Id int64 `json:"id"`                        // 用户ID
+		Username string `json:"username"`           // 用户名
+		Nickname string `json:"nickname"`           // 昵称
+		Mobile string `json:"mobile"`               // 手机号
+		Gender int32 `json:"gender"`                // 性别
+		Birthday string `json:"birthday"`           // 生日
+	}
+
+	// 登录请求
+	LoginRequest {
+		Username string `json:"username"`           // 用户名
+		Password string `json:"password"`           // 密码
+	}
+
+	// 登录响应
+	LoginResponse {
+		Info UserInfoResponse `json:"info"`         // 用户信息
+		Token string `json:"token"`                 // 令牌
+	}
+
+	// ID请求
+	IDRequest {
+		Id int64 `path:"id"`                        // 用户ID
+	}
+
+	// 获取用户列表请求
+	GetUserListRequest {
+		Page int32 `form:"page"`                   // 页码
+		PageSize int32 `form:"page_size"`           // 每页大小
+	}
+
+	// 获取用户列表响应
+	GetUserListResponse {
+		Page int32 `json:"page"`                   // 页码
+		PageSize int32 `json:"page_size"`           // 每页大小
+		Total int64 `json:"total"`                  // 总记录数
+		Data []UserInfoResponse `json:"data"`       // 用户列表
+	}
+
+	// 更新用户请求
+	UpdateUserRequest {
+		Id int64 `json:"id"`                        // 用户ID
+		Username string `json:"username,optional"`  // 用户名
+		Nickname string `json:"nickname,optional"`  // 昵称
+		Mobile string `json:"mobile,optional"`      // 手机号
+		Gender int32 `json:"gender,optional"`       // 性别
+		Birthday string `json:"birthday,optional"`  // 生日
+	}
+)

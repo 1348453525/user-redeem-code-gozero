@@ -1,0 +1,70 @@
+syntax = "v1"
+
+info (
+	title:   "兑换码管理"
+	desc:    "兑换码管理接口"
+	version: "v1.0.0"
+)
+
+
+@server (
+	prefix: /v1/RedeemCode
+	group: redeemcode
+	jwt: Auth
+)
+service api {
+	// "获取兑换码详情"
+	@handler RedeemCodeDetail
+	get /RedeemCodeDetail/:id returns (RedeemCodeResponse)
+
+	// "获取兑换码列表"
+	@handler GetRedeemCodeList
+	get /GetRedeemCodeList returns (GetRedeemCodeListResponse)
+
+	// "更新兑换码"
+	@handler UpdateRedeemCode
+	put /UpdateRedeemCode/:id (UpdateRedeemCodeRequest)
+
+	// "删除兑换码"
+	@handler DeleteRedeemCode
+	delete /DeleteRedeemCode/:id
+
+	// "使用兑换码"
+	@handler UseRedeemCode
+	post /UseRedeemCode (UseRedeemCodeRequest)
+}
+
+type (
+	RedeemCodeResponse {
+		Id               int64  `json:"id"`
+		RedeemCodeBatchId int64  `json:"redeem_code_batch_id"`
+		Title            string `json:"title"`
+		Value            string `json:"value"`
+		UsageLimit      int32  `json:"usage_limit"`
+		UsedCount       int32  `json:"used_count"`
+		ExpirationAt    string `json:"expiration_at"`
+		IsDel           int32  `json:"is_del"`
+		DeletedAt       string `json:"deleted_at"`
+		CreatedAt       string `json:"created_at"`
+		UpdatedAt       string `json:"updated_at"`
+	}
+
+	UpdateRedeemCodeRequest {
+		Id            int64  `path:"id"`
+		Title         string `json:"title"`
+		ExpirationAt  string `json:"expiration_at"`
+		IsDel         int32  `json:"is_del"`
+	}
+
+	UseRedeemCodeRequest {
+		RedeemCodeId int64 `json:"redeem_code_id"`
+		UserId       int64 `json:"user_id"`
+	}
+
+	GetRedeemCodeListResponse {
+		Page     int64                 `json:"page"`
+		PageSize int64                 `json:"page_size"`
+		Total    int64                 `json:"total"`
+		Data     []RedeemCodeResponse `json:"data"`
+	}
+)
