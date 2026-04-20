@@ -1,7 +1,25 @@
 Name: api
-Host: 0.0.0.0
-Port: 8888
+Host: 127.0.0.1
+Port: 8080
 
 Auth:
   AccessSecret: user_redeem_code
   AccessExpire: 86400
+
+Log:
+  ServiceName: api
+  Mode: console # console,file,volume
+  Encoding: json
+  Path: logs
+  Level: debug # debug,info,error,severe
+  Stat: true
+
+Auth:
+  AccessSecret: user_redeem_code
+  AccessExpire: 86400
+
+UserRpc:
+  Target: consul://127.0.0.1:8500/user.rpc?wait=5s
+
+RedeemCodeRpc:
+  Target: consul://127.0.0.1:8500/redeemcode.rpc?wait=5s
