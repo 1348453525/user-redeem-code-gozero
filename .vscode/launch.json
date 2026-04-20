@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "api",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/api/api.go",
+            "env": {},
+            "args": [],
+            "showLog": false
+        },
+        {
+            "name": "redeem-code-rpc",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/redeem-code-rpc/redeemcode.go",
+            "env": {},
+            "args": [],
+            "showLog": false
+        },
+        {
+            "name": "user-rpc",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/user-rpc/user.go",
+            "env": {},
+            "args": [],
+            "showLog": false
+        },
+        {
+            "name": "Debug Current File",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${file}",
+            "showLog": true
+        }
+    ]
+}
