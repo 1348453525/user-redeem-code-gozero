@@ -8,6 +8,7 @@ import (
 
 	"github.com/1348453525/user-redeem-code-gozero/api/internal/svc"
 	"github.com/1348453525/user-redeem-code-gozero/api/internal/types"
+	userclient "github.com/1348453525/user-redeem-code-gozero/user-rpc/client/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -27,7 +28,26 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 }
 
 func (l *RegisterLogic) Register(req *types.RegisterRequest) (resp *types.UserInfoResponse, err error) {
-	// todo: add your logic here and delete this line
+	respRpc, err := l.svcCtx.UserRpc.Register(l.ctx, &userclient.RegisterRequest{
+		Username:        req.Username,
+		Password:        req.Password,
+		ConfirmPassword: req.ConfirmPassword,
+		Nickname:        req.Nickname,
+		Mobile:          req.Mobile,
+		Gender:          req.Gender,
+		Birthday:        req.Birthday,
+	})
+	if err != nil {
+		logx.Errorw("UserRpc.Register error", logx.Field("err", err))
+		return nil, err
+	}
 
-	return
+	return &types.UserInfoResponse{
+		Id:       respRpc.Id,
+		Username: respRpc.Username,
+		Nickname: respRpc.Nickname,
+		Mobile:   respRpc.Mobile,
+		Gender:   respRpc.Gender,
+		Birthday: respRpc.Birthday,
+	}, nil
 }
