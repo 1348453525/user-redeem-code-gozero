@@ -3,5 +3,11 @@ tmp/
 .DS_Store
 config.yaml
 user.yaml
+user-docker.yaml
+user-local.yaml
 redeemcode.yaml
+redeemcode-docker.yaml
+redeemcode-local.yaml
 api.yaml
+api-docker.yaml
+api-local.yaml
